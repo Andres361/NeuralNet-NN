@@ -7,9 +7,9 @@ library(RODBC)
 FLU_Mm <- c(1,24)
 setwd("C:/Users/D3I6/Desktop/ZARATE_NN/Modelos")
 
-FLUNN_rds <- readRDS("C:/Users/D3I6/Desktop/ZARATE_NN/Modelos/MFI_NN.rds")
+FLUNN_rds <- readRDS("C:/Users/Desktop/NN/Modelos/MFI_NN.rds")
 
-myconn <-odbcConnect("Infoplus.21", uid="ACONSIGLIO", pwd="password")
+myconn <-odbcConnect("Infoplus.21", uid="Usernames", pwd="password")
 #Datos MFI--------------------------------------------------------------
 a <- sqlQuery(myconn, 'SELECT IP_INPUT_VALUE FROM "TC241-1"')
 b <- sqlQuery(myconn, 'SELECT IP_INPUT_VALUE FROM "TC210-3"')
