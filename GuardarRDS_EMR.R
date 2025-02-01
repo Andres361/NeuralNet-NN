@@ -5,7 +5,7 @@ library(caret)
 
 #LEER DATOS, MAXIMOS Y MINIMOS-----------------------------
 EMR_Mm <- c(300,3000)
-setwd("C:/Users/D3I6/Desktop/ZARATE_NN")
+setwd("C:/Users/Desktop/NN")
 datos <- data.frame(read_excel("Datos/EMR.xlsx", sheet = "Hoja1"))
 
 #NORMALIZACION DE DATOS
@@ -65,9 +65,7 @@ print(data.frame(actual = datos[TestLine,12],Predicha = predicted ))
 
 myconn <-odbcConnect("Infoplus.21", uid="ACONSIGLIO", pwd="password")
 
-#p=0
-#while (p<1)
-#{
+
   
 #Datos EMR-----------------------------------------------------
 a <- sqlQuery(myconn, 'SELECT IP_INPUT_VALUE FROM "TC241-1"')
@@ -102,12 +100,10 @@ predicted=prediccion$net.result * abs(diff(range(EMR_Mm)) + min(EMR_Mm))
 print(round(predicted, digits = 0))
 
 
-#update_dato = ""
-#update_dato = paste("UPDATE \"CALC-100\" SET ip_input_value = ",predicted,", Qstatus(ip_input_value)='good';")
-#escribir = sqlQuery(myconn,update_dato)
+
 
 Sys.sleep(30)
-#}
+
 
 close(myconn)
 
