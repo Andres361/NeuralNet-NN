@@ -5,7 +5,7 @@ library(data.table)
 
 #LEER DATOS, MAXIMOS Y MINIMOS-----------------------------
 IMP_Mm <- c(0,3)
-setwd("C:/Users/D3I6/Desktop/ZARATE_NN")
+setwd("C:/Users/Desktop/NN")
 datos <- data.frame(read_excel("Datos/IMPACTO.xlsx", sheet = "Hoja5"))
 
 
@@ -34,8 +34,6 @@ net <- neuralnet(Z.IMPACTO ~ FC204.39 + TC204.1 + FC204.4 +TC241.1 + SC205.2 + T
                  algorithm = "rprop+")
 net$result.matrix[1]
 
-#results <- data.frame(actual = trainset$Z.IMPACTO, prediction = output$net.result)
-#print(results)
 
 
 #Guardar neurona en formato RDS-----------------------------
@@ -69,10 +67,6 @@ print(data.frame(actual = datos[TestLine,16],Predicha = predicted ))
 myconn <-odbcConnect("Infoplus.21", uid="ACONSIGLIO", pwd="password")
 
 
-# p = 0
-            
-#while(p<1)
-#{
   myconn <-odbcConnect("Infoplus.21", uid="ACONSIGLIO", pwd="password")
 
 #Datos MFI--------------------------------------------------------------
