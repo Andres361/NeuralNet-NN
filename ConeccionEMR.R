@@ -5,11 +5,11 @@ library(RODBC)
 
 
 EMR_Mm <- c(300,3000)
-setwd("C:/Users/D3I6/Desktop/ZARATE_NN/Modelos")
+setwd("C:/Users/Desktop/NN/Modelos")
 
-EMRNN_rds <- readRDS("C:/Users/D3I6/Desktop/ZARATE_NN/Modelos/EMR_NN.rds")
+EMRNN_rds <- readRDS("C:/Users/Desktop/NN/Modelos/EMR_NN.rds")
 
-myconn <-odbcConnect("Infoplus.21", uid="ACONSIGLIO", pwd="password")
+myconn <-odbcConnect("Infoplus.21", uid="Usernames", pwd="password")
 
 #Datos EMR-----------------------------------------------------
 a <- sqlQuery(myconn, 'SELECT IP_INPUT_VALUE FROM "TC241-1"')
