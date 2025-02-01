@@ -4,7 +4,7 @@ library(readxl)
 library(data.table)
 
 
-setwd("C:/Users/D3I6/Desktop/ZARATE_NN")   #Escribir path correcto.
+setwd("C:/Users/Desktop/NN")   #Escribir path correcto.
 
 EMR_Mm <- c(300,3000)
 MFI_Mm <- c(1,24)
@@ -16,7 +16,7 @@ IMPNN_rds <- readRDS("Modelos/IMP_NN.rds")
 MFINN_rds <- readRDS("Modelos/MFI_NN.rds")
 
 
-myconn <-odbcConnect("Infoplus.21", uid="ACONSIGLIO", pwd="password")
+myconn <-odbcConnect("Infoplus.21", uid="Usernames", pwd="password")
 
 p=0
 filtro <- 1-(1-0.80)**(60/3600)
