@@ -9,7 +9,7 @@ library(data.table)
 
 #LEER DATOS, MAXIMOS Y MINIMOS-----------------------------
 FLU_Mm <- c(1,24)
-setwd("C:/Users/D3I6/Desktop/ZARATE_NN")
+setwd("C:/Users/Desktop/NN")
 datos <- data.frame(read_excel("Datos/MFI.xlsx", sheet = "Hoja2"))
 
 
@@ -38,9 +38,6 @@ net <- neuralnet(MFI ~ TC241.1 + TC210.3 + FC210.2 + FC204.39 + FC231.3 + FC301.
 net$result.matrix[1]
 
 
-#plot(net)
-
-#output = compute(net,trainset[,1:5])
 
 
 results <- data.frame(actual = trainset$MFI, prediction = net$net.result)
@@ -82,11 +79,7 @@ print(data.frame(actual = datos[TestLine,11],Predicha = predicted ))
 
 
 
-#k = 0
 
-
-#while(k<1)
-#{
 
 myconn <-odbcConnect("Infoplus.21", uid="ACONSIGLIO", pwd="password")
 #Datos MFI--------------------------------------------------------------
@@ -143,9 +136,7 @@ print(round(predicted1, digits = 2))
 
 
 
-#update_dato = ""
-#update_dato = paste("UPDATE \"CALC-101\" SET ip_input_value = ",predicted1,", Qstatus(ip_input_value)='good';")
-#escribir = sqlQuery(myconn,update_dato)
+
 
 Sys.sleep(30)
 #}
