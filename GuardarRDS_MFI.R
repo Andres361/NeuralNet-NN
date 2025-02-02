@@ -7,13 +7,13 @@ library(data.table)
 
 
 
-#LEER DATOS, MAXIMOS Y MINIMOS-----------------------------
+#READ DATA MAX AND MIN-----------------------------
 FLU_Mm <- c(1,24)
 setwd("C:/Users/Desktop/NN")
 datos <- data.frame(read_excel("Datos/MFI.xlsx", sheet = "Hoja2"))
 
 
-#NORMALIZACION DE DATOS
+#DATA NORMALIZE
 normalize <- function(x) { return ((x - min(x)) / (max(x) - min(x)))}
 datosN <- as.data.frame(lapply(datos, normalize))
 
@@ -47,20 +47,20 @@ print(results)
 
 
 
-#Guardar neurona en formato RDS-----------------------------
+#Save neuron in format RDS-----------------------------
 GuardarMFI <- readline(prompt="Desea Guardar rds (y/n): ")
 if (GuardarMFI == "y") 
 saveRDS(net, file = "Modelos/MFI_NN.rds", ascii = FALSE, version = NULL,compress = TRUE, refhook = NULL)
 
 
-#Usar Neurona en formato RDS--------------------------------
+#Use neuron in format RDS--------------------------------
 CargarMFI <- readline(prompt="Desea Cargar rds (y/n): ")
 if (CargarMFI == "y")  
 FLUNN_rds <- readRDS("Modelos/MFI_NN.rds")
 #plot(FLUNN_rds)
 
 
-#MODELO VALIDACION------------------------------------------
+#VALIDATION MODEL------------------------------------------
 output <- compute(net, (testset[,1:11]))
 output <- compute(FLUNN_rds, (testset[,1:11]))
 results <- data.frame(actual = (testset$MFI * abs(diff(range(FLU_Mm))) + min(FLU_Mm)), prediction = (output$net.result * abs(diff(range(FLU_Mm))) + min(FLU_Mm)))
@@ -68,7 +68,7 @@ results
 tabla <- data.frame(results)
 testset$MFI
 
-#INFERENCIA DATOS NORMALIZADOS------------------------------
+#INFERENCE DATA NORMALIZE------------------------------
 TestLine <- 11
 testset1 <- datosN[TestLine,]
 prueba <- compute(FLUNN_rds, testset1[,1:11])
