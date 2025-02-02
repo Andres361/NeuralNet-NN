@@ -3,13 +3,13 @@ library(readxl)
 library(data.table)
 
 
-#LEER DATOS, MAXIMOS Y MINIMOS-----------------------------
+#READ DATA MAX AND MIN-----------------------------
 IMP_Mm <- c(0,3)
 setwd("C:/Users/Desktop/NN")
 datos <- data.frame(read_excel("Datos/IMPACTO.xlsx", sheet = "Hoja5"))
 
 
-#NORMALIZACION DE DATOS
+#DATA NORMMALAIZE
 normalize <- function(x) { return ((x - min(x)) / (max(x) - min(x)))}
 datosN <- as.data.frame(lapply(datos, normalize))
 
@@ -36,25 +36,25 @@ net$result.matrix[1]
 
 
 
-#Guardar neurona en formato RDS-----------------------------
+#Save neuron in format RDS-----------------------------
 GuardarIMP <- readline(prompt="Desea Guardar rds (y/n): ")
 if (GuardarIMP == "y") 
 saveRDS(net, file = "Modelos/IMP_NN.rds", ascii = FALSE, version = NULL,compress = TRUE, refhook = NULL)
 
-#Usar Neurona en formato RDS--------------------------------
+#Use neuron in format RDS--------------------------------
 CargarIMP <- readline(prompt="Desea Cargar rds (y/n): ")
 if (CargarIMP == "y") 
 IMPNN_rds <- readRDS("Modelos/IMP_NN.rds")
 
 
-#MODELO VALIDACION-----------------------------------------
+#VALIDATION MODEL-----------------------------------------
 output <- compute(IMPNN_rds, (testset[,1:16]))
 results <- data.frame(actual = (testset$Z.IMPACTO * abs(diff(range(IMP_Mm))) + min(IMP_Mm)), prediction = (output$net.result * abs(diff(range(IMP_Mm))) + min(IMP_Mm)))
 results
 tabla <- data.frame(results)
 testset$Z.IMPACTO
 
-#INFERENCIA DATOS NORMALIZADOS-------------------
+#INFERENCE DATA NORMALIZE-------------------
 TestLine <- 14
 testset1 <- datos[TestLine,]
 prueba <- compute(IMPNN_rds, testset1[,1:16])
@@ -69,7 +69,7 @@ myconn <-odbcConnect("Infoplus.21", uid="ACONSIGLIO", pwd="password")
 
   myconn <-odbcConnect("Infoplus.21", uid="ACONSIGLIO", pwd="password")
 
-#Datos MFI--------------------------------------------------------------
+#Data MFI--------------------------------------------------------------
 a <- sqlQuery(myconn, 'SELECT IP_INPUT_VALUE FROM "FC204-39"')
   
 b<- sqlQuery(myconn, 'SELECT IP_INPUT_VALUE FROM "TC204-1"')
