@@ -3,12 +3,12 @@ library(readxl)
 library(data.table)
 library(caret)
 
-#LEER DATOS, MAXIMOS Y MINIMOS-----------------------------
+# Read data max and min
 EMR_Mm <- c(300,3000)
 setwd("C:/Users/Desktop/NN")
 datos <- data.frame(read_excel("Datos/EMR.xlsx", sheet = "Hoja1"))
 
-#NORMALIZACION DE DATOS
+#Data normalization
 normalize <- function(x) { return ((x - min(x)) / (max(x) - min(x)))}
 maxmindf <- as.data.frame(lapply(datos, normalize))
 
@@ -30,19 +30,19 @@ net <- neuralnet(Z.EMR ~ TC241.1 + FI210.19 + TC221.1 + TI221.6 + TI222.3 + PC22
                  algorithm = "rprop+")
 net$result.matrix[1]
 #plot(net)
-#Guardar neurona en formato RDS-----------------------------
+#Save neuron in RDS format-----------------------------
 GuardarEMR <- readline(prompt="Desea Guardar rds (y/n): ")
 if (GuardarEMR == "y") 
 saveRDS(net, file = "Modelos/EMR_NN.rds", ascii = FALSE, version = NULL,compress = TRUE, refhook = NULL)
 
-#Usar Neurona en formato RDS--------------------------------
+#Used Neuron in format RDS--------------------------------
 CargarEMR <- readline(prompt="Desea Cargar rds (y/n): ")
 if (CargarEMR == "y") 
 EMRNN_rds <- readRDS("Modelos/EMR_NN.rds")
 
 
 
-#MODELO VALIDACION-----------------------------------------
+#VALIDATION MODEL-----------------------------------------
 #output <- compute(net, (testset[,1:10]))
 output <- compute(EMRNN_rds, (testset[,1:11]))
 results <- data.frame(actual = (testset$Z.EMR * abs(diff(range(EMR_Mm))) + min(EMR_Mm)), prediction = (output$net.result * abs(diff(range(EMR_Mm))) + min(EMR_Mm)))
@@ -52,7 +52,7 @@ round(results, digits = 0)
 
 
 
-#INFERENCIA DATOS NORMALIZADOS-------------------
+#INFERENCE NORMALIZED DATA-------------------
 TestLine <- 247
 testset1 <- datos[TestLine,]
 prueba <- compute(EMRNN_rds, testset1[,1:12])
@@ -67,7 +67,7 @@ myconn <-odbcConnect("Infoplus.21", uid="ACONSIGLIO", pwd="password")
 
 
   
-#Datos EMR-----------------------------------------------------
+#Data EMR-----------------------------------------------------
 a <- sqlQuery(myconn, 'SELECT IP_INPUT_VALUE FROM "TC241-1"')
 b <- sqlQuery(myconn, 'SELECT IP_INPUT_VALUE FROM "FI210-19"')
 c <- sqlQuery(myconn, 'SELECT IP_INPUT_VALUE FROM "TC221-1"')
